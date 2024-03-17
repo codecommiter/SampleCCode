@@ -52,3 +52,17 @@ def updatedList = userProvidedList.collect { userConfig ->
 
 println updatedList
 ======================================================================
+
+    def combinedMap = userGivenValues.collectEntries { key, userGivenValue ->
+    [key, [userGivenValue: userGivenValue, processedValue: '']]
+}
+
+processMap.each { key, processedValue ->
+    def mapToUpdate = listToUpdate.find { it.key == key }
+    if (mapToUpdate) {
+        mapToUpdate.processedValue = processedValue
+    } else {
+        listToUpdate << [key: key, userGivenValue: '', processedValue: processedValue]
+    }
+}
+
