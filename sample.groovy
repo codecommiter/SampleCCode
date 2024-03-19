@@ -66,3 +66,17 @@ processMap.each { key, processedValue ->
     }
 }
 
+=======================================================================
+    if (fieldValue instanceof Map) {
+                // Validate nested map if it's not empty
+                if (fieldValue.size() > 0) {
+                    def nestedErrors = validateMap(fieldValue, rule.rules)
+                    if (nestedErrors) {
+                        nestedErrors.each { nestedError ->
+                            errors << "$fieldName.${nestedError}"
+                        }
+                    }
+                } else if (rule.minItems) {
+                    errors << "$fieldName should have at least ${rule.minItems} item(s)"
+                }
+            } 
