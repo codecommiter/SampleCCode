@@ -80,3 +80,47 @@ processMap.each { key, processedValue ->
                     errors << "$fieldName should have at least ${rule.minItems} item(s)"
                 }
             } 
+=================================================
+    case "map":
+    if (fieldValue instanceof Map) {
+        // Validate nested map if it's not empty
+        if (fieldValue.size() > 0) {
+            def nestedErrors = validateMap(fieldValue, rule.rules)
+            if (nestedErrors) {
+                nestedErrors.each { nestedError ->
+                    errors << "$fieldName.${nestedError}"
+                }
+            }
+        } else if (rule.minItems) {
+            errors << "$fieldName should have at least ${rule.minItems} item(s)"
+        }
+    } else {
+        errors << "$fieldName should be a map"
+    }
+    break
+=======================================
+
+    def createUnixZipCommands(List zipConfigs) {
+    def commands = []
+    
+    zipConfigs.each { config ->
+        def src = config.src.split(',').collect { "'${it.trim()}'" } // Split and quote individual paths
+        def destZip = config.destZip
+        def includePattern = config.includePattern
+        def excludePattern = config.excludePattern
+        
+        // Create destination folder if it doesn't exist
+        sh "mkdir -p '${destZip.substring(0, destZip.lastIndexOf('/'))}'"
+        
+        // Construct Unix zip command
+        def zipCommand = "zip -r '${destZip}' ${src.join(' ')} -x '${excludePattern.replaceAll(',', ' ')}'"
+        if (!includePattern.isEmpty()) {
+            zipCommand += " -i '${includePattern.replaceAll(',', ' ')}'"
+        }
+        
+        commands.add(zipCommand)
+    }
+    
+    return commands
+}
+===================================================
