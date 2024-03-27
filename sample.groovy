@@ -124,3 +124,13 @@ processMap.each { key, processedValue ->
     return commands
 }
 ===================================================
+def lastCommit = sh(script: 'git log -1 --pretty=format:"%an|%ae|%s"', returnStdout: true).trim()
+
+                    // Split the commit information into separate variables
+                    def (committerName, committerEmail, commitMessage) = lastCommit.split('|')
+
+                    // Print the extracted information
+                    echo "Last Committer Name: ${committerName}"
+                    echo "Last Committer Email: ${committerEmail}"
+                    echo "Last Commit Message: ${commitMessage}"
+==================================
