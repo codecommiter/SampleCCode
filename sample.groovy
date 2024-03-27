@@ -134,3 +134,14 @@ def lastCommit = sh(script: 'git log -1 --pretty=format:"%an|%ae|%s"', returnStd
                     echo "Last Committer Email: ${committerEmail}"
                     echo "Last Commit Message: ${commitMessage}"
 ==================================
+def lastCommit = sh(script: 'git log -1 --pretty=format:"%H|%an|%ae|%s"', returnStdout: true).trim()
+
+                    // Split the commit information into separate variables
+                    def (commitHash, committerName, committerEmail, commitMessage) = lastCommit.split('|')
+
+                    // Print the extracted information
+                    echo "Commit Hash: ${commitHash}"
+                    echo "Last Committer Name: ${committerName}"
+                    echo "Last Committer Email: ${committerEmail}"
+                    echo "Last Commit Message: ${commitMessage}"
+=======================================================
