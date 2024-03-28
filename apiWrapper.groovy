@@ -55,4 +55,35 @@ abstract class RestApiWrapper {
         println "Error occurred: ${ex.message}"
         // Additional error handling logic if needed
     }
+
+
+
+
+
+private void handleResponse(response) {
+    println "Response status: ${response.statusLine}"
+    
+    if (response.status.code >= 400) {
+        println "Error: ${response.statusLine}"
+        return
+    }
+    
+    if (response.contentType?.contains("application/json")) {
+        try {
+            def jsonResponse = JsonOutput.prettyPrint(response.getData())
+            println "Response body (JSON):"
+            println jsonResponse
+        } catch (Exception e) {
+            println "Failed to parse response as JSON: ${e.message}"
+            println "Response body: ${response.getData()}"
+        }
+    } else {
+        println "Response body: ${response.getData()}"
+    }
+}
+
+
+
+
+    
 }
