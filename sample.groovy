@@ -162,3 +162,15 @@ def lastCommit = sh(script: 'git log -1 --pretty=format:"%H|%an|%ae|%s"', return
 protected def delete(String path, Map headers = [:]) {
         return restClient.delete(path: path, headers: headers)
     }
+
+================================
+    // Assuming 'response' is the HTTP response object obtained from the RESTClient
+
+// Check if the response Content-Type header indicates JSON content
+def isJsonResponse = response.headers['Content-Type']?.toLowerCase()?.contains('application/json')
+
+if (isJsonResponse) {
+    println "Response is JSON"
+} else {
+    println "Response is not JSON"
+}
