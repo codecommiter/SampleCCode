@@ -82,7 +82,26 @@ private void handleResponse(response) {
     }
 }
 
+=======================================================
 
+    protected def get(String path, Map params = [:], Map headers = [:]) {
+        return restClient.get(path: path, query: params, headers: headers)
+    }
+    
+    // Method to make a POST request
+    protected def post(String path, body, Map headers = [:]) {
+        return restClient.post(path: path, body: body, headers: headers)
+    }
+    
+    // Method to make a PUT request
+    protected def put(String path, body, Map headers = [:]) {
+        return restClient.put(path: path, body: body, headers: headers)
+    }
+    
+    // Method to make a DELETE request
+    protected def delete(String path, Map headers = [:]) {
+        return restClient.delete(path: path, headers: headers)
+    }
 
 
     
