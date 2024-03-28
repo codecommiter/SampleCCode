@@ -145,3 +145,16 @@ def lastCommit = sh(script: 'git log -1 --pretty=format:"%H|%an|%ae|%s"', return
                     echo "Last Committer Email: ${committerEmail}"
                     echo "Last Commit Message: ${commitMessage}"
 =======================================================
+     protected def get(String path, Map params = [:], Map headers = [:]) {
+        return restClient.get(path: path, query: params, headers: headers)
+    }
+    
+    // Method to make a POST request
+    protected def post(String path, body, Map headers = [:]) {
+        return restClient.post(path: path, body: body, headers: headers)
+    }
+    
+    // Method to make a PUT request
+    protected def put(String path, body, Map headers = [:]) {
+        return restClient.put(path: path, body: body, headers: headers)
+    }
