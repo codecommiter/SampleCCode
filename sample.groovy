@@ -158,3 +158,7 @@ def lastCommit = sh(script: 'git log -1 --pretty=format:"%H|%an|%ae|%s"', return
     protected def put(String path, body, Map headers = [:]) {
         return restClient.put(path: path, body: body, headers: headers)
     }
+
+protected def delete(String path, Map headers = [:]) {
+        return restClient.delete(path: path, headers: headers)
+    }
