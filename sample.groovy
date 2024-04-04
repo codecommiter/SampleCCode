@@ -153,6 +153,29 @@ processMap.each { key, processedValue ->
     return commands
 }
 ====================================================================
+    def createZipCommands(List zipConfigs, String os) {
+    def commands = []
+    
+    zipConfigs.each { config ->
+        def src = config.src ? config.src.split(',').collect { "\"${it.trim()}\"" } : ['.']
+        def destZip = config.destZip
+        def includePattern = config.includePattern
+        def excludePattern = config.excludePattern
+        
+        // Create destination folder if it doesn't exist
+        os == "windows" ? bat "mkdir \"${destZip.substring(0, destZip.lastIndexOf('\\'))}\"" : sh "mkdir -p \"${destZip.substring(0, destZip.lastIndexOf('/'))}\""
+        
+        // Construct zip command
+        def zipCommand = "zip -r \"${destZip}\" ${src.join(' ')}" +
+            (excludePattern ? " -x ${excludePattern.replaceAll(',', ' ')}" : "") +
+            (includePattern ? " -i ${includePattern.replaceAll(',', ' ')}" : "")
+        
+        commands.add(zipCommand)
+    }
+    
+    return commands
+}
+=========================================================
 def lastCommit = sh(script: 'git log -1 --pretty=format:"%an|%ae|%s"', returnStdout: true).trim()
 
                     // Split the commit information into separate variables
