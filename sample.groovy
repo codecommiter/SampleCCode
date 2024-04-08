@@ -226,3 +226,18 @@ if (isJsonResponse) {
 } else {
     println "Response is not JSON"
 }
+====================================================
+    case "arrayMap":
+    if (fieldValue instanceof List && fieldValue.every { it instanceof Map }) {
+        fieldValue.eachWithIndex { mapValue, index ->
+            def nestedErrors = validateMap(mapValue, rule.rules)
+            if (nestedErrors) {
+                nestedErrors.each { nestedError ->
+                    errors << "$fieldName[$index].${nestedError}"
+                }
+            }
+        }
+    } else {
+        errors << "$fieldName should be an array of maps"
+    }
+    break
