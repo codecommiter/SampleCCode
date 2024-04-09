@@ -241,3 +241,5 @@ if (isJsonResponse) {
         errors << "$fieldName should be an array of maps"
     }
     break
+======================================================
+    def regexPattern = /^(?:[a-zA-Z0-9]+|#TIMESTAMP#)+$/
